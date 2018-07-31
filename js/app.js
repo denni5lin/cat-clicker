@@ -1,23 +1,22 @@
 const imgOne = document.getElementById('catOne');
-const imgTwo = document.getElementById('catTwo');
+const name = document.getElementById('header');
 const countOne = document.getElementById('countOne');
-const countTwo = document.getElementById('countTwo');
-const catName = ['Poplinre', 'Chewie'];
+const juan = document.getElementById('cat1');
+
+const catName = ['Juan Carlos', 'Chewie'];
 
 let clickCountOne = 0; 
-let clickCountTwo = 0; 
-countOne.innerText = clickCountOne;
-countTwo.innerText = clickCountTwo;
 
-imgOne.insertAdjacentHTML('beforebegin', `${catName[0]}`);
-imgTwo.insertAdjacentHTML('beforebegin', `${catName[1]}`);
+countOne.innerText = clickCountOne;
+
+name.insertAdjacentHTML('afterend', `<h3>${catName[0]}</h3>`);
 
 imgOne.addEventListener('click', function() {
 	clickCountOne += 1;
 	countOne.innerText = clickCountOne;
 }, false);
 
-imgTwo.addEventListener('click', function() {
-	clickCountTwo += 1;
-	countTwo.innerText = clickCountTwo;
+juan.addEventListener('click', function() {
+	alert('Juan was clicked');
 }, false);
+
