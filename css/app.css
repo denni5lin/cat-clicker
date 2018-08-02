@@ -1,5 +1,5 @@
-.sidenav {
-  width: 150px;
+#cat-list {
+  width: 130px;
   position: fixed;
   z-index: 1;
   top: 20px;
@@ -8,27 +8,27 @@
   overflow-x: hidden;
   padding 8px 0;
   font-size: 1.5em;
+  text-decoration: none;
+  list-style-type: none;
 }
 
-.sidenav a {
-  padding: 6px 8px 6px 16px;
+#cat-list ul {
   text-decoration: none;
   color: #2196f3;
   display: block;
 }
 
-.sidenav a:hover {
-  color: #064579;
+#cat-list li {
+	padding: 3px;
 }
 
-.main {
-  margin-left: 140px; /* Same width as the sidebar + left position in px */
-  padding: 0px 10px; 
-}
-
-.container {
+#cat {
 	margin-top: 20px;
 	text-align: center;
+}
+
+#cat-img {
+	border-radius: 20px;
 }
 
 @media screen and (max-height: 450px) {

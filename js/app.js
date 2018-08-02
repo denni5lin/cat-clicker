@@ -1,88 +1,120 @@
-const name = document.getElementById('header');
-const imgOne = document.getElementById('catOne');
-// const content = document.getElementById('main');
-const content = document.getElementById('content');
+/* Model */
 
-const countOne = document.getElementById('countOne');
-// Cat selector
-const juan = document.getElementById('cat1');
-const pizza = document.getElementById('cat2');
-const buttercup = document.getElementById('cat3');
-const jellybean = document.getElementById('cat4');
-const bambi = document.getElementById('cat5');
+const model = {
+	currentCat: null,
+	cats: [
+		{
+			clickCount: 0,
+			name: 'Juan',
+			imgSrc: 'img/cat1.jpg',
+			imgAttribution: 'https://www.flickr.com/photos/poplinre/625069434'
+		},
+		{
+			clickCount: 0,
+			name: 'Pizza',
+			imgSrc: 'img/cat2.jpg',
+			imgAttribution: 'https://www.flickr.com/photos/chewie/2290467335'
+		},
+		{
+			clickCount: 0,
+			name: 'Buttercup',
+			imgSrc: 'img/cat3.jpg',
+			imgAttribution: 'https://www.flickr.com/photos/95574076@N05/11991979753'
+		},
+		{
+			clickCount: 0,
+			name: 'Jellybean',
+			imgSrc: 'img/cat4.jpg',
+			imgAttribution: 'https://www.flickr.com/photos/iweatherman/8086458090'
+		},
+		{
+			clickCount: 0,
+			name: 'Bambi',
+			imgSrc: 'img/cat5.jpg',
+			imgAttribution: 'https://www.flickr.com/photos/shalva1948/9680261486'
+		}
+	]
+};
 
-// Cat Objects
-const cats = [
-  {
-    name: 'Juan Carlos',
-    img: 'img/cat1.jpg',
-    click: 0  
-  },
-  {
-    name: 'Pizza',
-    img: 'img/cat2.jpg',
-    click: 0 
-  },
-  {
-    name: 'Buttercup',
-    img: 'img/cat3.jpg',
-    click: 0 
-  },
-  {
-    name: 'Jellybean',
-    img: 'img/cat4.jpg',
-    click: 0
-  },
-  {
-    name: 'Bambi',
-    img: 'img/cat5.jpg',
-    click: 0
-  }
-];
+/* Octopus */
 
-// name.insertAdjacentHTML('afterend', `<h3>${catName[0]}</h3>`);
+const octopus = {
+	init: function() {
+		model.currentCat = model.cats[0];
+		catListView.init();
+		catView.init();
+	},
 
-// imgOne.addEventListener('click', function() {
-// 	cats[0].click += 1;
-	// countOne.innerText = cats[0].click;
-// }, false);
+	getCurrentCat: function() {
+		return model.currentCat;
+	},
 
-for(let i = 0; i < cats.length; i++) {
-	// number we are currently on
-	let num = cats[i].click;
-	// create a DOM element for this number
+	getCats: function() {
+		return model.cats;
+	},
 
-	// when we click, add 1 to this number
-	// display new number under cat pic  
-}
-// <p>Number of click(s): ${cats[0].click}</p></p>
+	setCurrentCat: function(cat) {
+		model.currentCat = cat;
+	},
 
-function loadCat(index) {
-	content.innerHTML = "";
-	content.innerHTML = `<h3>${cats[index].name}</h3>
-		<img id='catOne' src='${cats[index].img}' alt='Cat picture 1'>`;
-}
+	incrementCounter: function() {
+		model.currentCat.clickCount++;
+		catView.render();
+	}
+};
 
-juan.addEventListener('click', function() {
-	loadCat(0);
-}, false);
+/* View */
 
-pizza.addEventListener('click', function() {
-	loadCat(1);
-}, false);
+const catView = {
+	init: function() {
+		this.catElem = document.getElementById('cat');
+		this.catNameElem = document.getElementById('cat-name');
+		this.catImageElem = document.getElementById('cat-img');
+		this.countElem = document.getElementById('cat-count');
 
-buttercup.addEventListener('click', function() {
-	loadCat(2);
-}, false);
+		this.catImageElem.addEventListener('click', function() {
+			octopus.incrementCounter();
+		});
+	},
 
-jellybean.addEventListener('click', function() {
-	loadCat(3);
-}, false);
+	render: function() {
+		let currentCat = octopus.getCurrentCat();
+		this.countElem.textContent = currentCat.clickCount;
+		this.catNameElem.textContent = currentCat.name;
+		this.catImageElem.src = currentCat.imgSrc;
+	}
+};
 
-bambi.addEventListener('click', function() {
-	loadCat(4);
-}, false);
+const catListView = {
+	init: function() {
+		this.catListElem = document.getElementById('cat-list');
+		this.render();
+	},
+
+	render: function() {
+		let cat, elem, i;
+		let cats = octopus.getCats();
+
+		this.catListElem.innerHTML = '';
+
+		for(let i = 0; i < cats.length; i++) {
+			cat = cats[i];
+			elem = document.createElement('li');
+			elem.textContent = cat.name;
+
+			elem.addEventListener('click', (function(catCopy) {
+				return function() {
+					octopus.setCurrentCat(catCopy);
+					catView.render();
+				};
+			})(cat));
+
+			this.catListElem.appendChild(elem);
+		}
+	}
+};
+
+octopus.init();
 
 
-const catNames = ['Juan Carlos', 'Pizza', 'Buttercup', 'Jellybean', 'Bambi'];
 
